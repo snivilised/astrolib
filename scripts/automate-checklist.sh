@@ -17,32 +17,17 @@ function auto-check() {
     return 1
   fi
 
-  update-source-id-in-root-cmd $repo $owner
-  if [ $? -ne 0 ]; then
-    return 1
-  fi
-  
-  update-arcadia-in-root-cmd $repo $owner
-  if [ $? -ne 0 ]; then
-    return 1
-  fi
-
   update-source-id-variable-in-translate-defs $repo $owner
   if [ $? -ne 0 ]; then
     return 1
   fi
 
-  update-source-id-variable-in-widget_cmd_test $repo $owner
+  update-astrolib-in-taskfile $repo $owner
   if [ $? -ne 0 ]; then
     return 1
   fi
 
-  update-arcadia-in-taskfile $repo $owner
-  if [ $? -ne 0 ]; then
-    return 1
-  fi
-
-  update-arcadia-in-goreleaser $repo $owner
+  update-astrolib-in-goreleaser $repo $owner
   if [ $? -ne 0 ]; then
     return 1
   fi
@@ -111,62 +96,30 @@ function update-mod-file() {
   local owner=$2
   local folder=./
   local file_pattern=go.mod
-  local target="module github.com\/snivilised\/arcadia"
+  local target="module github.com\/snivilised\/astrolib"
   local replacement="module github.com\/$owner\/$repo"
   update-all-generic "update-mod-file" $repo $owner $folder $file_pattern "$target" "$replacement"
-}
-
-function update-source-id-in-root-cmd() {
-  local repo=$1
-  local owner=$2
-  local folder=./src/app/command
-  local file_pattern=root-cmd.go
-  local target="github.com\/snivilised\/arcadia"
-  local replacement="github.com\/$owner\/$repo"
-  update-all-generic "update-source-id-in-root-cmd" $repo $owner $folder $file_pattern "$target" "$replacement"
-}
-
-function update-arcadia-in-root-cmd() {
-  local repo=$1
-  local owner=$2
-  local folder=./src/app/command
-  local file_pattern=root-cmd.go
-  local target=arcadia
-  local replacement=$repo
-  update-all-generic "update-arcadia-in-root-cmd" $repo $owner $folder $file_pattern "$target" "$replacement"
 }
 
 function update-source-id-variable-in-translate-defs() {
   local repo=$1
   local owner=$2
-  local folder=./src/i18n/
+  local folder=./i18n/
   local file_pattern=translate-defs.go
-  local target="ArcadiaSourceID"
+  local target="AstrolibSourceID"
   local tc_repo="$(echo ${repo:0:1} | tr '[:lower:]' '[:upper:]')${repo:1}"
   local replacement="${tc_repo}SourceID"
   update-all-generic "update-source-id-variable-in-translate-defs" $repo $owner $folder $file_pattern "$target" "$replacement"
 }
 
-function update-source-id-variable-in-widget_cmd_test() {
-  local repo=$1
-  local owner=$2
-  local folder=./src/app/command/
-  local file_pattern=widget_cmd_test.go
-  local target="ArcadiaSourceID"
-  local tc_repo="$(echo ${repo:0:1} | tr '[:lower:]' '[:upper:]')${repo:1}"
-  local replacement="${tc_repo}SourceID"
-
-  update-all-generic "update-source-id-variable-in-widget_cmd_test" $repo $owner $folder $file_pattern "$target" "$replacement"
-}
-
-function update-arcadia-in-taskfile() {
+function update-astrolib-in-taskfile() {
   local repo=$1
   local owner=$2
   local folder=./
   local file_pattern=Taskfile.yml
-  local target=arcadia
+  local target=astrolib
   local replacement=$repo
-  update-all-generic "update-arcadia-in-taskfile" $repo $owner $folder $file_pattern "$target" "$replacement"
+  update-all-generic "update-astrolib-in-taskfile" $repo $owner $folder $file_pattern "$target" "$replacement"
 }
 
 function update-workflow-names() {
@@ -174,20 +127,20 @@ function update-workflow-names() {
   local owner=$2
   local folder=.github/workflows
   local file_pattern=*.yml
-  local target="name: Arcadia"
+  local target="name: astrolib"
   local tc_repo="$(echo ${repo:0:1} | tr '[:lower:]' '[:upper:]')${repo:1}"
   local replacement="name: $tc_repo"
   update-all-generic "💥 update-workflow-names" $repo $owner $folder $file_pattern "$target" $replacement
 }
 
-function update-arcadia-in-goreleaser() {
+function update-astrolib-in-goreleaser() {
   local repo=$1
   local owner=$2
   local folder=./
   local file_pattern=.goreleaser.yaml
-  local target=arcadia
+  local target=astrolib
   local replacement=$repo
-  update-all-generic "update-arcadia-in-goreleaser" $repo $owner $folder $file_pattern "$target" $replacement
+  update-all-generic "update-astrolib-in-goreleaser" $repo $owner $folder $file_pattern "$target" $replacement
 }
 
 function rename-templ-data-id() {
@@ -195,7 +148,7 @@ function rename-templ-data-id() {
   local owner=$2
   local folder=./
   local file_pattern=*.go
-  local target="arcadiaTemplData"
+  local target="astrolibTemplData"
   local replacement="${repo}TemplData"
   update-all-generic "rename-templ-data-id" $repo $owner $folder $file_pattern "$target" "$replacement"
 }
@@ -205,25 +158,25 @@ function update-readme() {
   local owner=$2
   local folder=./
   local file_pattern=README.md
-  local target="arcadia: "
+  local target="astrolib: "
   local replacement="${repo}: "
 
-  update-all-generic "update-readme(arcadia:)" $repo $owner $folder $file_pattern "$target" "$replacement"
+  update-all-generic "update-readme(astrolib:)" $repo $owner $folder $file_pattern "$target" "$replacement"
   if [ $? -ne 0 ]; then
     return 1
   fi
 
-  target="snivilised\/arcadia"
+  target="snivilised\/astrolib"
   replacement="$owner\/$repo"
-  update-all-generic "update-readme(snivilised/arcadia)" $repo $owner $folder $file_pattern "$target" "$replacement"
+  update-all-generic "update-readme(snivilised/astrolib)" $repo $owner $folder $file_pattern "$target" "$replacement"
   if [ $? -ne 0 ]; then
     return 1
   fi
 
-  target="Arcadia Continuous Integration"
+  target="astrolib Continuous Integration"
   tc_repo="$(echo ${repo:0:1} | tr '[:lower:]' '[:upper:]')${repo:1}"
   replacement="$tc_repo Continuous Integration"
-  update-all-generic "update-readme(Arcadia Continuous Integration)" $repo $owner $folder $file_pattern "$target" "$replacement"
+  update-all-generic "update-readme(astrolib Continuous Integration)" $repo $owner $folder $file_pattern "$target" "$replacement"
   if [ $? -ne 0 ]; then
     return 1
   fi
@@ -236,22 +189,21 @@ function update-import-statements() {
   local owner=$2
   local folder=./
   local file_pattern=*.go
-  local target="snivilised\/arcadia"
+  local target="snivilised\/astrolib"
   local replacement="$owner\/$repo"
   update-all-generic "update-import-statements" $repo $owner $folder $file_pattern "$target" "$replacement"
 }
 
 function rename-language-files() {
   local repo=$1
-  find . -name 'arcadia*.json' -type f -print0 |
+  find . -name 'astrolib*.json' -type f -print0 |
   while IFS= read -r -d '' file; do
-    mv "$file" "$(dirname "$file")/$(basename "$file" | sed "s/^arcadia/$repo/")"
+    mv "$file" "$(dirname "$file")/$(basename "$file" | sed "s/^astrolib/$repo/")"
   done
   return $?
 }
 
 function reset-version() {
   echo "v0.1.0" > ./VERSION
-  echo "0.1.0" > ./src/app/command/version.txt
   return 0
 }
