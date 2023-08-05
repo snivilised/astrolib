@@ -17,11 +17,11 @@ type FooBarTemplData struct {
 	Reason error
 }
 
-// the ID should use spp/library specific code, so replace arcadia with the
+// the ID should use spp/library specific code, so replace astrolib with the
 // name of the library implementing this template project.
 func (td FooBarTemplData) Message() *i18n.Message {
 	return &i18n.Message{
-		ID:          "foo-bar.arcadia.nav",
+		ID:          "foo-bar.astrolib.nav",
 		Description: "Foo Bar description",
 		Other:       "foo bar failure '{{.Path}}' (reason: {{.Reason}})",
 	}
