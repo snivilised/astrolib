@@ -12,7 +12,8 @@ builds:
       - linux
       - windows
       - darwin
-    main: ./src/app/main
+    no_main_check: true
+    skip: true
 
 archives:
   - format: tar.gz
