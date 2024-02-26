@@ -8,7 +8,7 @@ require (
 	github.com/onsi/gomega v1.31.1
 	github.com/samber/lo v1.39.0
 	github.com/snivilised/extendio v0.6.0
-	go.uber.org/zap v1.26.0
+	go.uber.org/zap v1.27.0
 )
 
 require (
