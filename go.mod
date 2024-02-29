@@ -7,7 +7,7 @@ require (
 	github.com/onsi/ginkgo/v2 v2.15.0
 	github.com/onsi/gomega v1.31.1
 	github.com/samber/lo v1.39.0
-	github.com/snivilised/extendio v0.6.0
+	github.com/snivilised/extendio v0.6.1
 	go.uber.org/zap v1.27.0
 )
 
