@@ -55,7 +55,7 @@ jobs:
 
       - name: Add files and commit changes
         run: |
-          git checkout -b main
+          git checkout main
           git pull origin main
           git push -u origin main
           git add .
