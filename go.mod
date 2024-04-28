@@ -1,6 +1,6 @@
 module github.com/snivilised/astrolib
 
-go 1.22
+go 1.22.0
 
 require (
 	github.com/onsi/ginkgo/v2 v2.17.1
