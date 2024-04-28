@@ -57,7 +57,7 @@ jobs:
         run: |
           git add .
           git commit -m "chore(gh-actions): apply auto-check edits"
-          git push -u origin ${{ github.event.repository.default_branch }}
+          git push -u origin main
         shell: bash
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
