@@ -55,6 +55,7 @@ jobs:
 
       - name: Add files and commit changes
         run: |
+          git checkout -b main
           git add .
           git commit -m "chore(gh-actions): apply auto-check edits"
           git push -u origin main
