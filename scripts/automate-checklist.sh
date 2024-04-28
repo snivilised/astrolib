@@ -60,37 +60,6 @@ function auto-check() {
   return 0
 }
 
-# the sed -i option edits the file in place, overwriting the original file
-#
-function update-all-generic-LEGACY() {
-  local title=$1
-  local repo=$2
-  local owner=$3
-  local folder=$4
-  local name=$5
-  local target=$6
-  local replacement=$7
-
-  echo "  🎯 --->        title: $title"
-  echo "  ✅ ---> file pattern: $name"
-  echo "  ✅ --->       folder: $folder"
-  echo "  ✅ --->       target: $target"
-  echo "  ✅ --->  replacement: $replacement"
-
-  find "$folder" -name "$name" -type f -print0 | while IFS= read -r -d '' file; do
-    echo "Processing file: $file"
-    if ! sed "s/${target}/${replacement}/g" "$file" > "$file.tmp" && mv "$file.tmp" "$file"; then
-      echo "!!! ⛔ Sed failed for $file"
-      return 1
-    fi
-    rm "$file.tmp"
-  done
-
-  echo "  ✔️ --->  DONE"
-  echo ""
-  return 0
-}
-
 function update-all-generic() {
   local title=$1
   local repo=$2
@@ -106,6 +75,9 @@ function update-all-generic() {
   echo "  ✅ --->       target: $target"
   echo "  ✅ --->  replacement: $replacement"
 
+  # !!!WARNING: sed
+  # does not work the same way between mac and linux
+  #
   # find "$folder" -name "$name" -type f -print0: This part of the command uses the find utility to search for files within the specified folder ($folder) matching the given pattern ($name). Here's what each option does:
   #     -name "$name": Specifies the filename pattern to match. In this case, it matches the filenames with the pattern stored in the variable $name.
   #     -type f: Specifies that only regular files should be matched, excluding directories, symbolic links, etc.
@@ -116,11 +88,19 @@ function update-all-generic() {
   #     read -r: This command reads input from the pipe (|) without interpreting backslashes (-r option).
   #     -d '': This option specifies the delimiter as null characters (\0), ensuring that filenames containing spaces or special characters are read correctly.
   #     file: This is the variable where each filename from the find command is stored during each iteration of the loop.
+  #
+  # trying to modify:
+  # - ci-workflow.yml
+  # - release-workflow.yml
   find "$folder" -name "$name" -type f -print0 | while IFS= read -r -d '' file; do
     echo "Processing file: $file"
-    if ! sed -i "" "s/${target}/${replacement}/g" "$file"; then
+    if ! sed -i "s/${target}/${replacement}/g" "$file"; then
       # sed help:
-      # "": no file backup needed (we modify the file in place without backing up original)
+      # '': no file backup needed (we modify the file in place without backing up original)
+      # but not that this is only required for mac. for linux, you dont need the '' not
+      # in the code as we run in linux, but if we wanted it to work on mac it would be:
+      # if ! sed -i '' ...
+      #
       # -i: The in-place edit flag, which tells sed to modify the original file inline.
       # 's/search_pattern/replacement_text/g':
       # 
