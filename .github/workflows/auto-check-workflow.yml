@@ -55,6 +55,9 @@ jobs:
 
       - name: Add files and commit changes
         run: |
+          echo "* available branches:"
+          git branch | cat
+          echo "========"
           git checkout main
           git pull origin main
           git add .
