@@ -232,7 +232,7 @@ function update-readme() {
 
   return 0
 }
-§
+
 function update-import-statements() {
   local repo=$1
   local owner=$2
