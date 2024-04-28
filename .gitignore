@@ -25,3 +25,4 @@ i18n/out/en-US/active.en-GB.json
 
 .DS_Store
 thumbs.db
+.tmp
