@@ -57,12 +57,11 @@ jobs:
         run: |
           echo "* available branches:"
           git branch | cat
+          echo "default branch: '${{ github.event.repository.default_branch }}'"
           echo "========"
-          git checkout main
-          git pull origin main
           git add .
           git commit -m "chore(gh-actions): apply auto-check edits"
-          git push -u origin main
+          git push -u origin ${{ github.event.repository.default_branch }}
         shell: bash
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
