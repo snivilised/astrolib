@@ -94,24 +94,29 @@ function update-all-generic() {
   # - release-workflow.yml
   find "$folder" -name "$name" -type f -print0 | while IFS= read -r -d '' file; do
     echo "Processing file: $file"
-    if ! sed -i "s/${target}/${replacement}/g" "$file"; then
-      # sed help:
-      # '': no file backup needed (we modify the file in place without backing up original)
-      # but not that this is only required for mac. for linux, you dont need the '' not
-      # in the code as we run in linux, but if we wanted it to work on mac it would be:
-      # if ! sed -i '' ...
-      #
-      # -i: The in-place edit flag, which tells sed to modify the original file inline.
-      # 's/search_pattern/replacement_text/g':
-      # 
-      # s: Indicates that this is a substitution command.
-      # /search_pattern/: The pattern to search for.
-      # /replacement_text/: The text to replace the search pattern with.
-      # g: The global flag, which ensures that all occurrences of the
-      #    search pattern are replaced, not just the first one.
-
-      echo "!!! ⛔ Sed failed for $file"
-      return 1
+    uname_output=$(uname)
+    # sed help:
+    # '': no file backup needed (we modify the file in place without backing up original)
+    # but note that this is only required for mac. for linux, you dont need the ''.
+    #
+    # -i: The in-place edit flag, which tells sed to modify the original file inline.
+    # 's/search_pattern/replacement_text/g':
+    # 
+    # s: Indicates that this is a substitution command.
+    # /search_pattern/: The pattern to search for.
+    # /replacement_text/: The text to replace the search pattern with.
+    # g: The global flag, which ensures that all occurrences of the
+    #    search pattern are replaced, not just the first one.
+    if [[ "$uname_output" == *"Darwin"* ]]; then
+      if ! sed -i '' "s/${target}/${replacement}/g" "$file"; then
+        echo "!!! ⛔ Sed on mac failed for $file"
+        return 1
+      fi
+    else
+      if ! sed -i "s/${target}/${replacement}/g" "$file"; then
+        echo "!!! ⛔ Sed on linux failed for $file"
+        return 1
+      fi
     fi
   done
 
