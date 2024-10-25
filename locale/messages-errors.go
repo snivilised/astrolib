@@ -1,14 +1,15 @@
 package locale
 
 import (
-	"github.com/snivilised/extendio/i18n"
+	"github.com/nicksnyder/go-i18n/v2/i18n"
+	"github.com/snivilised/li18ngo"
 )
 
 // ❌ FooBar
 
 // FooBarTemplData - TODO: this is a none existent error that should be
 // replaced by the client. Its just defined here to illustrate the pattern
-// that should be used to implement i18n with extendio. Also note,
+// that should be used to implement i18n with li18ngo. Also note,
 // that this message has been removed from the translation files, so
 // it is not useable at run time.
 type FooBarTemplData struct {
@@ -27,14 +28,8 @@ func (td FooBarTemplData) Message() *i18n.Message {
 	}
 }
 
-// FooBarErrorBehaviourQuery used to query if an error is:
-// "Failed to read directory contents from the path specified"
-type FooBarErrorBehaviourQuery interface {
-	FooBar() bool
-}
-
 type FooBarError struct {
-	i18n.LocalisableError
+	li18ngo.LocalisableError
 }
 
 // FooBar enables the client to check if error is FooBarError
@@ -46,7 +41,7 @@ func (e FooBarError) FooBar() bool {
 // NewFooBarError creates a FooBarError
 func NewFooBarError(path string, reason error) FooBarError {
 	return FooBarError{
-		LocalisableError: i18n.LocalisableError{
+		LocalisableError: li18ngo.LocalisableError{
 			Data: FooBarTemplData{
 				Path:   path,
 				Reason: reason,
