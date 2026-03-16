@@ -159,12 +159,12 @@ func doGlobalReplace(replacements map[string]string) {
 
 		// Order of replacements matters
 		order := []string{
-			"snivilised/arcadia",
-			"snivilised/Arcadia",
-			"snivilised/ARCADIA",
-			"arcadia",
-			"Arcadia",
-			"ARCADIA",
+			"snivilised/astrolib",
+			"snivilised/Astrolib",
+			"snivilised/ASTROLIB",
+			"astrolib",
+			"Astrolib",
+			"ASTROLIB",
 		}
 
 		for _, k := range order {
