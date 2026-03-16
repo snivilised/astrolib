@@ -49,21 +49,21 @@ func main() {
 	ucRepo := strings.ToUpper(repo)
 
 	replacements := map[string]string{
-		"snivilised/arcadia": fmt.Sprintf("%s/%s", owner, lcRepo),
-		"snivilised/Arcadia": fmt.Sprintf("%s/%s", owner, tcRepo),
-		"snivilised/ARCADIA": fmt.Sprintf("%s/%s", owner, ucRepo),
-		"arcadia":            lcRepo,
-		"Arcadia":            tcRepo,
-		"ARCADIA":            ucRepo,
+		"snivilised/astrolib": fmt.Sprintf("%s/%s", owner, lcRepo),
+		"snivilised/Astrolib": fmt.Sprintf("%s/%s", owner, tcRepo),
+		"snivilised/ASTROLIB": fmt.Sprintf("%s/%s", owner, ucRepo),
+		"astrolib":            lcRepo,
+		"Astrolib":            tcRepo,
+		"ASTROLIB":            ucRepo,
 	}
 
 	// 1. & 2. Global replace
 	doGlobalReplace(replacements)
 
 	// 3. Rename files
-	renameTargetFiles("arcadia", lcRepo)
-	renameTargetFiles("Arcadia", tcRepo)
-	renameTargetFiles("ARCADIA", ucRepo)
+	renameTargetFiles("astrolib", lcRepo)
+	renameTargetFiles("Astrolib", tcRepo)
+	renameTargetFiles("ASTROLIB", ucRepo)
 
 	// 4. Reset version
 	err := os.WriteFile("VERSION", []byte("v0.1.0\n"), 0644) //nolint:gosec // ok, not sensitive
